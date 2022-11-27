@@ -22,7 +22,6 @@ signup.post(validate({ body: postSchema }), async (req, res) => {
     console.log(err);
     throw err;
   }
- 
 });
 
 export default signup;

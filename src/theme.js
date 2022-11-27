@@ -5,7 +5,9 @@ const theme = {
   inputBorder: '#e6e6e6',
   background: '#ececec',
   black: '#3a3a3a',
-  white: '#ffffff'
+  white: '#ffffff',
+  error: 'red',
+  disabled: '#94568d'
 }
 
 export default theme

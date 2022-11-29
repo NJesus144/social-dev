@@ -1,4 +1,3 @@
-import Joi from "joi";
 import { withIronSessionApiRoute } from 'iron-session/next'
 
 import createHandler from "../../../lib/middlewares/nextConnect";
@@ -21,9 +20,15 @@ signup.post(validate({ body: signupSchema }), async (req, res) => {
       user: user.user
     }
     await req.session.save();
+
     res.status(201).json({ok: true});
   } catch (err) {
-    console.log(err);
+    if(err.code === 11000) {
+      return res.status(400).send({
+        code: 11000,
+        duplicatedKey: Object.keys(err.keyPattern)[0]
+      })
+    }
     throw err;
   }
 });

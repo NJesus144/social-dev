@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useController } from 'react-hook-form'
+import { useController } from "react-hook-form";
 
 const InputContainer = styled.div`
   width: 100%;
@@ -21,7 +21,7 @@ const StyledInput = styled.input`
 
   ${(props) => props.error && `border: 2px solid ${props.theme.error};`}
 
-  &:focus{
+  &:focus {
     outline: none;
   }
 `;
@@ -33,20 +33,29 @@ const ErrorLabel = styled.span`
 `;
 
 const errorMessage = {
-  'string.empty': 'Este campo é obrigatório.',
-  'string.email': 'Por favor, digite um email válido.',
-}
+  "string.empty": "Este campo é obrigatório.",
+  "string.email": "Por favor, digite um email válido.",
+  "duplicated": "Já existe uma conta registrada com esse dado.",
+};
 
-const Input = ({ label, name, control, defaultValue = '', ...props }) => {
+const Input = ({ label, name, control, defaultValue = "", ...props }) => {
   const {
-    field: { value, onChange},
-    fieldState: { error }
-  } = useController({ name, control, defaultValue})
+    field: { value, onChange },
+    fieldState: { error },
+  } = useController({ name, control, defaultValue });
   return (
     <InputContainer>
       <StyledLabel>{label}</StyledLabel>
-      <StyledInput placeholder={label} error={error} {...props} value={value} onChange={onChange}/>
-      {error && <ErrorLabel>{errorMessage[error.type]||error.message}</ErrorLabel>}
+      <StyledInput
+        placeholder={label}
+        error={error}
+        {...props}
+        value={value}
+        onChange={onChange}
+      />
+      {error && (
+        <ErrorLabel>{errorMessage[error.type] || error.message}</ErrorLabel>
+      )}
     </InputContainer>
   );
 };

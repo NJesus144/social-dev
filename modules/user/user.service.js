@@ -1,6 +1,6 @@
 import { hashPassword, comparePassword } from "../../utils/bcrypt";
 
-import User from "./User.model";
+import User from "./user.model";
 
 export const signupUser = async (body) => {
   try {
@@ -18,12 +18,9 @@ export const signupUser = async (body) => {
 export const login = async (body) => {
   try {
     const user = await User.findOne({
-      $or: [
-        { email: body.userOrEmail },
-         { user: body.userOrEmail }
-        ],
+      $or: [{ email: body.userOrEmail }, { user: body.userOrEmail }],
     });
-    if (!user) throw new Error("not-found");
+    if (!user) throw new Error("not found");
     const passwordIsCorrect = comparePassword(body.password, user.password);
     if (!passwordIsCorrect) throw new Error("incorrect password");
 

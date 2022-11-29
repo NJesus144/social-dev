@@ -32,12 +32,7 @@ const Text = styled.p`
 
 function SignupPage() {
   const router = useRouter();
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    setError,
-  } = useForm({
+  const {control,handleSubmit,formState: { errors },setError,} = useForm({
     resolver: joiResolver(signupSchema),
   });
 

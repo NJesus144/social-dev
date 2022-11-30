@@ -19,7 +19,7 @@ const StyledLogo = styled.span`
   font-weight: bold;
   font-size: 20px;
 `;
-const styledLogout = styled.a`
+const StyledLogout = styled.a`
   cursor: pointer;
 `;
 
@@ -34,7 +34,8 @@ function Navbar() {
     <StyledNavbar>
       <StyledLogo># Social Dev</StyledLogo>
       <div>
-        <styledLogout onClick={handleLogout}>Desconectar</styledLogout>
+        <StyledLogout onClick={handleLogout}>Desconectar</StyledLogout>
+
       </div>
     </StyledNavbar>
   );

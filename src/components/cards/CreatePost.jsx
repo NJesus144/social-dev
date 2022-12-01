@@ -1,7 +1,14 @@
 import styled from "styled-components";
+import { useForm } from "react-hook-form";
+import { joiResolver } from "@hookform/resolvers/joi";
+import axios from "axios";
+
+import { createPostSchema } from "../../../modules/post/post.schema";
+
 import H4 from "../typography/H4";
-import Textarea from "../inputs/Textarea";
-import Button from '../inputs/Button'
+import ControlledTextarea from "../inputs/ControlledTextarea";
+import Button from "../inputs/Button";
+import { useSWRConfig } from "swr";
 
 const PostContainer = styled.div`
   background-color: ${(props) => props.theme.white};
@@ -20,14 +27,13 @@ const Title = styled.div`
 const TextContainer = styled.div`
   margin: 20px 0;
   width: 100%;
-
 `;
 
 const BottomContainer = styled.div`
   display: flex;
   align-items: center;
 
-  @media (max-width: 500px){
+  @media (max-width: 500px) {
     flex-direction: column-reverse;
     gap: 10px;
   }
@@ -35,23 +41,45 @@ const BottomContainer = styled.div`
 
 const BottomText = styled.p`
   flex: 1;
-`
+`;
 
-function CreatePost( { username }) {
+function CreatePost({ username }) {
+  const { mutate } = useSWRConfig();
+
+  const { control, handleSubmit, reset, formState: { isValid }} = useForm({
+    resolver: joiResolver(createPostSchema),
+    mode: "all",
+  });
+
+  const onSubmit = async (data) => {
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/post`, data);
+    console.log(response);
+    if (response.status === 201) {
+      reset();
+      mutate(`${process.env.NEXT_PUBLIC_API_URL}/api/post`);
+    }
+  };
+
   return (
     <PostContainer>
       <H4>
         <Title>No que você está pensando, @{username}?</Title>
       </H4>
-      <TextContainer>
-        <Textarea placeholder="Digite sua mensagem" rows="4"/>
-      </TextContainer>
-      <BottomContainer>
-        <BottomText>
-          A sua mensagem será pública.
-        </BottomText>
-        <Button>Enviar mensagem</Button>
-      </BottomContainer>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <TextContainer>
+          <ControlledTextarea
+            placeholder="Digite sua mensagem"
+            rows="4"
+            control={control}
+            name="text"
+            maxLength="256"
+          />
+        </TextContainer>
+        <BottomContainer>
+          <BottomText>A sua mensagem será pública.</BottomText>
+          <Button disabled={!isValid}>Postar mensagem</Button>
+        </BottomContainer>
+      </form>
     </PostContainer>
   );
 }

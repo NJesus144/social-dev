@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { withIronSessionSsr } from "iron-session/next";
-import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { ironConfig } from "../lib/middlewares/ironSession";
 
@@ -25,9 +24,6 @@ const RefreshPosts = styled.span`
   cursor: pointer;
 `;
 
-const RefreshPostsContainer = styled.div`
-  text-align: center;
-`;
 
 const PostContainer = styled.div`
   display: flex;
@@ -48,9 +44,6 @@ function HomePage({ user }) {
         <Container>
           <CreatePost username={user.user} />
           <LastPostText>Últimas postagens:</LastPostText>
-          <RefreshPostsContainer>
-            <RefreshPosts>Carregar novas postagens</RefreshPosts>
-          </RefreshPostsContainer>
           <PostContainer>
             {
             data?.map((post) => 

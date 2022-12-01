@@ -15,7 +15,7 @@ handler
       if (!req.session.user) return res.status(401).send();
 
       const newPost = await createPost(req.body, req.session.user);
-      res.status(200).send(newPost);
+      res.status(201).send(newPost);
     } catch (err) {
       return resizeBy.status(500).send(err.message);
     }

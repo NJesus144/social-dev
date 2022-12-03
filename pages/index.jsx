@@ -24,7 +24,6 @@ const RefreshPosts = styled.span`
   cursor: pointer;
 `;
 
-
 const PostContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -32,10 +31,13 @@ const PostContainer = styled.div`
   margin-top: 20px;
 `;
 
-const fetcher = url => axios.get(url).then(res => res.data)
+const fetcher = (url) => axios.get(url).then((res) => res.data);
 
 function HomePage({ user }) {
-  const { data } = useSWR(`${process.env.NEXT_PUBLIC_API_URL}/api/post`, fetcher)
+  const { data } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/post`,
+    fetcher
+  );
 
   return (
     <>
@@ -45,15 +47,16 @@ function HomePage({ user }) {
           <CreatePost username={user.user} />
           <LastPostText>Últimas postagens:</LastPostText>
           <PostContainer>
-            {
-            data?.map((post) => 
-            <Post
-            key={post._id}
-            text={post.text}
-            user={post.createdBy.user}
-            date={post.createdDate}/>
-            )
-            }
+            {data?.map((post) => (
+              <Post
+                key={post._id}
+                text={post.text}
+                user={post.createdBy.user}
+                date={post.createdDate}
+                isOwner={post.createdBy._id === user.id}
+                id={post._id}
+              />
+            ))}
           </PostContainer>
         </Container>
       </Content>

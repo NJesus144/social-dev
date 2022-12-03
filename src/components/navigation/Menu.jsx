@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { set } from "react-hook-form";
 import styled from "styled-components";
 
 const Dots = styled.img`
@@ -47,8 +48,12 @@ const Menu = ({ options=[] }) => {
     return () => {
       document.removeEventListener("click", handleClickOutside, true)
     }
-
   }, [menuRef])
+
+  const handleClick = (onClick) => {
+    setShow(false)
+    onClick()
+  }
 
   return (
     <StyleContainerMenu>
@@ -56,13 +61,13 @@ const Menu = ({ options=[] }) => {
       <StyledMenu show={show} ref={menuRef} onBlur={() => setShow(false)}>
         
        {
-        options.map((option, pos) => 
+        options.map((option, pos) =>  
           <StyledOption 
           key={`menu-option-${pos}`}
-          onClick={option.onClick}
+          onClick={() => handleClick(option.onClick)}
           >
             {option.text}
-          </StyledOption>
+          </StyledOption> 
         )
        }
       

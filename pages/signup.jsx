@@ -32,12 +32,14 @@ const Text = styled.p`
 
 function SignupPage() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const {control,handleSubmit,formState: { errors },setError,} = useForm({
     resolver: joiResolver(signupSchema),
   });
 
   const handleForm = async (data) => {
     try {
+      setLoading(true);
       const { status } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/user/signup`,
         data
@@ -51,6 +53,8 @@ function SignupPage() {
           type: "duplicated",
         });
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -71,7 +75,7 @@ function SignupPage() {
             name="password"
             control={control}
           />
-          <Button type="submit" disabled={Object.keys(errors).length > 0}>
+          <Button loading={loading} type="submit" disabled={Object.keys(errors).length > 0}>
             Cadastrar
           </Button>
         </Form>

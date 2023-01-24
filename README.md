@@ -6,8 +6,6 @@
 
 https://social-dtbv1uo61-njesus144.vercel.app/login
 
-Social Dev é uma aplicação full stack feita no curso SejaDev.
-
 A aplicação é uma rede social onde as pessoas podem fazer suas postagens de texto, editar ou excluir. Criado com sistema de login e cadastro, autenticação e validação de usuário.
 
 
